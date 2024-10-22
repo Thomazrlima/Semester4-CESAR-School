@@ -98,3 +98,18 @@ from marinheiro m
 where idade > (select avg(m2.idade)
 				from marinheiro m2);
 
+-- 18
+select m.nomeMarinheiro, count(*)
+from marinheiro m 
+join reserva r on r.idMarinheiro = m.idMarinheiro 
+join barco b on b.idBarco = r.idBarco 
+where b.cor in ('vermelho', 'verde', 'azul')
+group by m.idMarinheiro 
+having count(*) > 3; 
+
+-- 19
+select b.cor, avg(m.idade)
+from barco b 
+join reserva r on r.idBarco = b.idBarco 
+join marinheiro m on m.idMarinheiro = r.idMarinheiro 
+group by b.cor;
