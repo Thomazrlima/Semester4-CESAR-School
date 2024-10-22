@@ -60,3 +60,41 @@ from marinheiro;
 select avg(idade) 
 from marinheiro
 where idade > 27;
+
+-- 11
+select count(*) from marinheiro;
+
+-- 12
+select count(distinct (nomeMarinheiro)) from marinheiro; 
+
+-- 13
+select avaliacao, min(idade)
+from marinheiro
+group by avaliacao;
+
+-- 14
+select  avaliacao, min(idade) as minIdade
+from marinheiro
+where idade >= 18
+group by avaliacao 
+having count(*) > 1; 
+
+-- 15
+select r.idBarco, b.cor, count(r.idBarco) 
+from barco b join reserva r 
+on b.idBarco = r.idBarco 
+and b.cor ='vermelho'
+group by r.idBarco;
+
+-- 16
+select avaliacao, avg(idade)
+from marinheiro m 
+group by avaliacao 
+having count(*) > 1;
+
+-- 17
+select m.idMarinheiro
+from marinheiro m 
+where idade > (select avg(m2.idade)
+				from marinheiro m2);
+
