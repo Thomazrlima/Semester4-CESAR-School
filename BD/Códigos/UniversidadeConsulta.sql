@@ -40,15 +40,15 @@ group by p.nome, p.sexo
 having count(*) > 1;
 
 -- 6
-select c.nome as nome_curso, p.sexo, avg(pr.nota) as media_nota
-from prova pr
-join aluno a on pr.matricula_aluno = a.matricula_aluno
-join curso c on a.codigo_curso = c.codigo_curso
-join pessoa p on a.matricula_aluno = p.matricula_pessoa
-where pr.ano_semestre = '2010.2' and pr.descricao = 'p2'
-group by c.nome, p.sexo
-order by c.nome;
-
+select c.nome, p.sexo, avg(r.nota)
+from curso c, pessoa p, prova r, aluno a
+where p.matricula_pessoa = a.matricula_aluno and 
+	c.codigo_curso = r.codigo_curso and 
+	r.matricula_aluno = a.matricula_aluno and 
+	r.descricao = 'P2'and
+	r.ano_semestre = '2010.2'
+group by c.nome, p.sexo 
+order by c.nome 
 
 -- 7
 select p.nome, prof.data_admissao
@@ -86,6 +86,7 @@ join projeto proj on at.codigo_projeto = proj.codigo_projeto
 where proj.conceito = 'regular';
 
 -- 12
+<<<<<<< HEAD
 select distinct pa.nome as nome_aluno, pp.nome as nome_professor
 from prova pr
 join pessoa pa on pr.matricula_aluno = pa.matricula_pessoa
@@ -93,6 +94,15 @@ join ministra m on pr.codigo_disciplina = m.codigo_disciplina and pr.codigo_curs
 join professor prof on m.matricula_professor = prof.matricula_professor
 join pessoa pp on prof.matricula_professor = pp.matricula_pessoa
 where pr.descricao = 'final';
+=======
+select pa.nome as nome_aluno, pp.nome as nome_professor
+from prova pr
+join pessoa pa on pr.matricula_aluno = pa.matricula_pessoa
+join disciplina d on d.codigo_disciplina = pr.codigo_disciplina 
+join professor prof on d.matricula_professor = prof.matricula_professor
+join pessoa pp on prof.matricula_professor = pp.matricula_pessoa
+where pr.descricao = 'FINAL';
+>>>>>>> adde89a400ed9f1d4ecf86038bd307f533e51ff3
 
 -- 13
 select ano_semestre, count(*) as qtd_alunos
@@ -107,11 +117,16 @@ left join aluno_turma at on c.codigo_curso = at.codigo_curso and at.codigo_proje
 where at.codigo_projeto is null;
 
 -- 15
+<<<<<<< HEAD
 select ano_semestre, count(distinct matricula_aluno) as qtd_alunos
+=======
+select ano_semestre, count(matricula_aluno) as qtd_alunos
+>>>>>>> adde89a400ed9f1d4ecf86038bd307f533e51ff3
 from aluno_turma
 group by ano_semestre;
 
 -- 16
+<<<<<<< HEAD
 select p.nome
 from aluno a
 join pessoa p on a.matricula_aluno = p.matricula_pessoa
@@ -127,6 +142,19 @@ join pessoa pp on prof.matricula_professor = pp.matricula_pessoa
 join disciplina d on m.codigo_disciplina = d.codigo_disciplina
 where d.ementa like '%matemática%'
 group by pp.nome;
+=======
+select p.*
+from pessoa p
+join aluno_turma at on at.matricula_aluno = p.matricula_pessoa
+join curso c on c.codigo_curso = at.codigo_curso 
+where p.sexo = 'M' and c.nome = 'Estatística';
+
+-- 17
+select count(*)
+from monitoria m
+join curso c on c.codigo_curso = m.codigo_curso
+where c.nome = 'Matematica';
+>>>>>>> adde89a400ed9f1d4ecf86038bd307f533e51ff3
 
 -- 18
 select prof.matricula_professor, p.nome, prof.data_admissao, count(distinct m.codigo_disciplina) as qtd_disciplinas
